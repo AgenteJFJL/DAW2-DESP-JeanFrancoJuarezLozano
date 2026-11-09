@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn - Flask Practica03
+After=network.target
+
+[Service]
+User=juarez
+WorkingDirectory=/opt/practica03/aplicacion
+ExecStart=/opt/practica03/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --access-logfile - --error-logfile - app:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

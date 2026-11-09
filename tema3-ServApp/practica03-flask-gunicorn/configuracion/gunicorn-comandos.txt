@@ -1,0 +1,14 @@
+cd "/mnt/e/jf/segundo año/despliegue de aplicaciones web/repositorio aqui/DAW-DESP-JeanFrancoJuarezLozano"
+cp -r tema3-ServApp/practica03-flask-gunicorn/aplicacion /opt/practica03/
+ls /opt/practica03/aplicacion           //crea las carpetas
+
+cd /opt/practica03
+python3 -m venv venv
+./venv/bin/pip install -r aplicacion/requirements.txt     //crea el entorno vritual e instala flask y Gunicorn
+
+cd /opt/practica03/aplicacion
+../venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 app:app   //ejecuta gunicorn con 2 workers y bind a la ip
+
+curl http://127.0.0.1:8000   //con ello verificamos en otra terminal Ubuntu que el gunicorn funciona correctamente
+
+http://localhost:8000   //abriendo en un navegador podremos ver el resultado

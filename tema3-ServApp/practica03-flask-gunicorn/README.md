@@ -44,7 +44,7 @@ Comando usado y significado de `--workers` y `--bind`.
 Fichero en `configuracion/` y explicación de `proxy_pass` y las cabeceras `proxy_set_header`.
 ### 4.4 systemd
 Fichero `.service` en `configuracion/` y explicación de `ExecStart`, `Restart=always` y `WantedBy`.
-
+Con nano /etc/systemd/system/flask-gunicorn.service se crea el servicio con al configuracion evidenciada. 
 ## 5. Evidencias
 | Evidencia | Captura |
 |---|---|
