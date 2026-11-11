@@ -24,6 +24,8 @@ gunicorn es un servidor WSGI de producción. El servidor de desarrollo de Flask 
 Esto construye la imagen de Flask. Escucha en 0.0.0.0:5000 dentro del contenedor para que Nginx pueda alcanzarlo por la red Docker.
 ## en default.conf:
 El primer bloque redirige todo a https, el segundo bloque temrina ssl y hace proxy inverso. 
-## en user-data.sh:
-Se automatiza la instalación para el
+
+
+IP PUBLICA DE LA INSTANCIA: 44.222.253.111
+
 >>>>>>> 7260d2f2f23a3aebe90e7a792af4ce64fca97eb0
