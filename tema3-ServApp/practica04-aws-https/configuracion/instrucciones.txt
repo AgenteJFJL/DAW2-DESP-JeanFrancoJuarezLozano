@@ -1,0 +1,5 @@
+apt update : refrescva el indice de paquetes
+docker.io es el motor de los contendores
+git  y curl son herramientas de descarga
+systemclt  enable/start arrancan Docker ahora y en cada reinicio
+mkdir -p crea la carpeta de trabajo.
