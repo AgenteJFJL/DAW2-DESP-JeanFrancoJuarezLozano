@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar' if e else 'Nuevo' }} espíritu · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section class="admin-form">
+  <h1>{% if e %}Editar «{{ e.nombre }}»{% else %}Añadir un espíritu{% endif %}</h1>
+  <form method="post" enctype="multipart/form-data" class="form tarjeta" id="form-espiritu">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+
+    <label>Nombre <span class="obl">*</span>
+      <input name="nombre" maxlength="80" required value="{{ v.nombre or '' }}">
+    </label>
+    <label>Subtítulo (tipo y familia) <span class="obl">*</span>
+      <input name="subtitulo" maxlength="100" required value="{{ v.subtitulo or '' }}" placeholder="Fruta vegetal espíritu">
+    </label>
+    <label>Descripción <span class="obl">*</span>
+      <textarea name="descripcion" rows="4" maxlength="1000" required>{{ v.descripcion or '' }}</textarea>
+    </label>
+
+    <label>Rareza <span class="obl">*</span>
+      <select name="rareza" required id="sel-rareza">
+        {% for n in nombres %}<option value="{{ loop.index0 }}" {% if v.rareza == loop.index0 %}selected{% endif %}>{{ n }}</option>{% endfor %}
+      </select>
+    </label>
+
+    <label>Familia <span class="obl">*</span>
+      <select name="familia" required id="sel-familia">
+        {% for f in familias %}<option value="{{ f.id }}" {% if v.familia_sel == f.id|string %}selected{% endif %}>{{ f.nombre }}</option>{% endfor %}
+        <option value="nueva" {% if v.familia_sel == 'nueva' %}selected{% endif %}>+ Crear familia nueva…</option>
+      </select>
+    </label>
+    <label id="fila-familia-nueva" {% if v.familia_sel != 'nueva' %}hidden{% endif %}>Nombre de la familia nueva
+      <input name="familia_nueva" maxlength="40" value="{{ v.familia_nueva or '' }}">
+    </label>
+
+    <label>Variante de (opcional; si eliges uno será Legendario)
+      <select name="variante_de">
+        <option value="">— No es una variante —</option>
+        {% for b in bases if not e or b.id != e.id %}<option value="{{ b.id }}" {% if v.variante_de == b.id %}selected{% endif %}>{{ b.nombre }}</option>{% endfor %}
+      </select>
+    </label>
+
+    <label>Imagen {% if not e %}<span class="obl">*</span>{% endif %}
+      <input type="file" name="imagen" id="imagen" accept="image/png,image/jpeg,image/webp" {% if not e %}required{% endif %}>
+      <small class="ayuda">Tamaño ideal: <strong>512 × 512 px</strong>, PNG con fondo transparente. Máximo 3 MB. Si es de otro tamaño se ajustará.</small>
+    </label>
+    <div class="previa" id="previa">
+      {% if e %}<img src="{{ url_for('media', nombre=e.imagen) }}" alt="Imagen actual" width="128" height="128">{% endif %}
+      <p id="previa-aviso" class="aviso a-info" hidden></p>
+    </div>
+
+    <div class="acciones">
+      <button class="boton" type="submit">{% if e %}Guardar cambios{% else %}Añadir espíritu{% endif %}</button>
+      <a class="boton sec" href="{{ url_for('admin') }}">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>{% endblock %}

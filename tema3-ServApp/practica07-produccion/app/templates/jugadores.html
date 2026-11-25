@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Jugadores · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section>
+  <h1>Jugadores</h1>
+  <p class="lema">Pulsa un nombre para ver su colección.</p>
+  <ul class="jugadores">
+  {% for j in filas %}
+    <li class="jugador">
+      {% if j.mejor %}<img src="{{ url_for('media', nombre=j.mejor.imagen) }}" alt="" width="56" height="56">{% else %}<span class="sinfoto">?</span>{% endif %}
+      <div class="j-datos">
+        <a href="{{ url_for('coleccion', usuario=j.usuario) }}">{{ j.usuario }}</a>
+        <small>{{ j.distintos }}/{{ total }} espíritus · {{ j.invocaciones }} invocaciones</small>
+        <progress max="{{ total }}" value="{{ j.distintos }}"></progress>
+      </div>
+    </li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

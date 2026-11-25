@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block titulo %}{{ e.nombre }} · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section class="ficha-pagina">
+  {% include "_ficha.html" %}
+  <p><a class="boton sec" href="{{ url_for('coleccion') }}">← Volver a la colección</a></p>
+</section>
+{% endblock %}

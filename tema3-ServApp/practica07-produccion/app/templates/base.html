@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Santuario de Espíritus{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Nunito:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="{% block clase %}{% endblock %}">
+<header class="cab">
+  <a class="marca" href="{{ url_for('inicio') }}">✦ Santuario de Espíritus</a>
+  {% if yo %}
+  <nav class="menu" aria-label="Principal">
+    <a href="{{ url_for('invocar') }}" {% if request.endpoint == 'invocar' %}aria-current="page"{% endif %}>Invocar</a>
+    <a href="{{ url_for('coleccion') }}" {% if request.endpoint == 'coleccion' %}aria-current="page"{% endif %}>Colección</a>
+    <a href="{{ url_for('jugadores') }}" {% if request.endpoint == 'jugadores' %}aria-current="page"{% endif %}>Jugadores</a>
+    {% if admin_activo %}<a class="m-admin" href="{{ url_for('admin') }}">Panel admin</a>{% endif %}
+    <form method="post" action="{{ url_for('salir') }}" class="salir">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <button class="enlace" type="submit" title="Cerrar sesión">Salir ({{ yo.usuario }})</button>
+    </form>
+  </nav>
+  {% endif %}
+</header>
+
+<main class="contenido">
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}
+    <div class="avisos" role="status">
+      {% for cat, m in mensajes %}<p class="aviso a-{{ cat }}">{{ m }}</p>{% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+  {% block contenido %}{% endblock %}
+</main>
+
+<footer class="pie">Práctica 07 · Despliegue en producción · jfjl04</footer>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-caja" role="dialog" aria-modal="true" aria-label="Ficha del espíritu">
+    <button type="button" class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar">×</button>
+    <div id="modal-cuerpo"></div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

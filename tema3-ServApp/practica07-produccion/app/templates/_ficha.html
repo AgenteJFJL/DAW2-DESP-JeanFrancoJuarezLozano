@@ -1,0 +1,9 @@
+<article class="ficha r{{ e.rareza }}">
+  <div class="ficha-img"><img src="{{ url_for('media', nombre=e.imagen) }}" alt="{{ e.nombre }}" width="256" height="256"></div>
+  <p class="chip r{{ e.rareza }}">{{ e.rareza_nombre }}</p>
+  <h2>{{ e.nombre }}</h2>
+  <p class="sub">{{ e.subtitulo }}</p>
+  <p class="fam">Familia: {{ e.familia }}{% if e.variante_nombre %} · Variante de {{ e.variante_nombre }}{% endif %}</p>
+  <p class="desc">{{ e.descripcion }}</p>
+  {% if copias %}<p class="copias">Tienes ×{{ copias }}</p>{% endif %}
+</article>

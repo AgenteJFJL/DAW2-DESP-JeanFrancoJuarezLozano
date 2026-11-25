@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block titulo %}Invocar · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section class="invocar">
+  <h1>Invocar un espíritu</h1>
+  <p class="lema">Gratis e ilimitado. Cada {{ PITY }} invocaciones, al menos una es Rara o superior.</p>
+
+  <div class="escenario" id="escenario">
+    <canvas id="lienzo" aria-hidden="true"></canvas>
+    <div class="circulo" id="circulo" aria-hidden="true">✦</div>
+    <div class="destello" id="destello" hidden></div>
+    <div class="banner" id="banner" hidden></div>
+    <div id="resultado" aria-live="polite"></div>
+  </div>
+
+  <p class="garantia">
+    <span id="garantia-texto">Raro o superior garantizado en {{ restantes }} invocación{{ '' if restantes == 1 else 'es' }}</span>
+    <progress id="garantia-barra" max="{{ PITY }}" value="{{ PITY - restantes }}"></progress>
+  </p>
+
+  <button class="boton grande" id="btn-invocar" type="button" data-url="{{ url_for('api_invocar') }}" data-csrf="{{ csrf }}" data-pity="{{ PITY }}">Invocar</button>
+  <p class="contador">Invocaciones: <strong id="n-invocaciones">{{ yo.invocaciones }}</strong></p>
+
+  <details class="desplegable probas">
+    <summary>Ver probabilidades actuales</summary>
+    <table class="tabla">
+      <thead><tr><th>Rareza</th><th>Espíritus</th><th>Prob. de la rareza</th><th>Prob. por espíritu</th></tr></thead>
+      <tbody>
+      {% for p in probs %}
+        <tr class="r{{ p.id }}"><td><span class="chip r{{ p.id }}">{{ p.nombre }}</span></td><td>{{ p.cantidad }}</td>
+          <td>{{ '%.2f'|format(p.porcentaje) }} %</td><td>{{ '%.3f'|format(p.por_espiritu) }} %</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p class="nota">Las cifras se recalculan solas cuando cambia el número de espíritus de cada rareza.</p>
+  </details>
+</section>
+
+<template id="plantilla-resultado">
+  <article class="resultado">
+    <p class="nuevo" data-campo="nuevo" hidden>¡NUEVO!</p>
+    <div class="ficha-img"><img data-campo="imagen" alt="" width="256" height="256"></div>
+    <p class="chip" data-campo="rareza"></p>
+    <h2 data-campo="nombre"></h2>
+    <p class="sub" data-campo="subtitulo"></p>
+    <p class="fam" data-campo="familia"></p>
+    <p class="desc" data-campo="descripcion"></p>
+    <p class="copias" data-campo="copias"></p>
+  </article>
+</template>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/invocar.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block titulo %}Panel de administración · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section class="admin-panel">
+  <h1>Panel de administración</h1>
+  <p class="lema">Edita espíritus, añade nuevos y haz regalos. Las probabilidades se recalculan solas.</p>
+
+  <h2>Probabilidades actuales</h2>
+  <table class="tabla">
+    <thead><tr><th>Rareza</th><th>Peso</th><th>Espíritus</th><th>Prob. rareza</th><th>Prob. por espíritu</th></tr></thead>
+    <tbody>
+    {% for p in probs %}
+      <tr><td><span class="chip r{{ p.id }}">{{ p.nombre }}</span></td><td>{{ p.peso }}</td><td>{{ p.cantidad }}</td>
+        <td>{{ '%.2f'|format(p.porcentaje) }} %</td><td>{{ '%.3f'|format(p.por_espiritu) }} %</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2 id="regalo">Regalar un espíritu</h2>
+  <form method="post" action="{{ url_for('admin_regalar') }}" class="form fila">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>Usuario
+      <select name="usuario_id" required>
+        {% for u in usuarios %}<option value="{{ u.id }}" {% if u.id == yo.id %}selected{% endif %}>{{ u.usuario }}{% if u.id == yo.id %} (yo){% endif %}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Espíritu
+      <select name="espiritu_id" required>
+        {% for e in cat %}<option value="{{ e.id }}">{{ e.nombre }} · {{ e.rareza_nombre }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Cantidad
+      <input type="number" name="cantidad" min="1" max="50" value="1" required>
+    </label>
+    <button class="boton" type="submit">Regalar</button>
+  </form>
+
+  <h2>Espíritus ({{ cat|length }})</h2>
+  <div class="barra-acciones">
+    <input type="search" id="buscar" placeholder="Buscar por nombre, familia o rareza…" aria-label="Buscar espíritu">
+    <a class="boton" href="{{ url_for('admin_nuevo') }}">+ Añadir espíritu</a>
+  </div>
+  <ul class="lista-admin" id="lista-admin">
+  {% for e in cat %}
+    <li id="e{{ e.id }}" data-texto="{{ (e.nombre ~ ' ' ~ e.familia ~ ' ' ~ e.rareza_nombre ~ ' ' ~ e.subtitulo)|lower }}">
+      <img src="{{ url_for('media', nombre=e.imagen) }}" alt="" width="48" height="48" loading="lazy">
+      <div class="la-datos"><strong>{{ e.nombre }}</strong><small>{{ e.familia }}</small></div>
+      <span class="chip r{{ e.rareza }}">{{ e.rareza_nombre }}</span>
+      <a class="boton sec peq" href="{{ url_for('admin_editar', espiritu_id=e.id) }}">Editar</a>
+    </li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>{% endblock %}

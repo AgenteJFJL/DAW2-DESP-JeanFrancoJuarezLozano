@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block titulo %}Colección de {{ dueno.usuario }} · Santuario de Espíritus{% endblock %}
+{% block contenido %}
+<section class="coleccion">
+  <h1>{% if propia %}Tu colección{% else %}Colección de {{ dueno.usuario }}{% endif %}</h1>
+  <p class="lema">{{ tengo }} de {{ total }} espíritus descubiertos · {{ copias }} copias en total</p>
+  <progress class="barra" max="{{ total }}" value="{{ tengo }}"></progress>
+
+  <nav class="filtros" aria-label="Familias">
+    {% set base = url_for('coleccion') if propia else url_for('coleccion', usuario=dueno.usuario) %}
+    <a class="filtro" href="{{ base }}" {% if not familia_sel %}aria-current="true"{% endif %}>Todas</a>
+    {% for f in familias %}
+      <a class="filtro" href="{{ base }}?familia={{ f.id }}" {% if familia_sel == f.id %}aria-current="true"{% endif %}>{{ f.nombre }} <small>{{ f.tengo }}/{{ f.total }}</small></a>
+    {% endfor %}
+  </nav>
+
+  <ul class="rejilla">
+  {% for it in items %}
+    {% if it.bloqueado %}
+      <li class="carta bloqueada" aria-label="Espíritu bloqueado"><span class="interrogante">?</span></li>
+    {% else %}
+      <li class="carta r{{ it.rareza }}">
+        <button type="button" class="carta-btn" data-ficha="{{ url_for('ficha', espiritu_id=it.id) }}{% if not propia %}?de={{ dueno.usuario }}{% endif %}">
+          <img src="{{ url_for('media', nombre=it.imagen) }}" alt="{{ it.nombre }}" width="128" height="128" loading="lazy">
+          <span class="nombre">{{ it.nombre }}</span>
+          {% if it.cantidad > 1 %}<span class="cant">×{{ it.cantidad }}</span>{% endif %}
+        </button>
+      </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+-- Santuario de Espíritus · datos iniciales (generado a partir de espiritus.csv)
+SET NAMES utf8mb4;
+USE practica07jfjl04;
+
+INSERT INTO rarezas (id, nombre, peso) VALUES
+  (0, 'Común', 40),
+  (1, 'Poco común', 28),
+  (2, 'Raro', 17),
+  (3, 'Súper raro', 8),
+  (4, 'Épico', 5),
+  (5, 'Legendario', 2);
+
+INSERT INTO familias (id, nombre) VALUES
+  (1, 'Vegetales'),
+  (2, 'Fantasmas'),
+  (3, 'Celestiales'),
+  (4, 'Docentes'),
+  (5, 'Curiosidades');
+
+INSERT INTO espiritus (id, nombre, subtitulo, descripcion, rareza, familia_id, variante_de, imagen) VALUES
+  (1, 'Espíritu manzana', 'Fruta vegetal espíritu', 'Este espíritu suele tener un problema de orugas que se sienten atraídos por su dulce aroma.', 0, 1, NULL, 'manzana.png'),
+  (2, 'Espíritu patata', 'Tubérculo vegetal espíritu', 'Aguanta cualquier cosa con calma. Frita, cocida o en tortilla, siempre dice que ha pasado por cosas peores.', 0, 1, NULL, 'patata.png'),
+  (3, 'Espíritu zanahoria', 'Raíz vegetal espíritu', 'Presume de ver muy bien en la oscuridad. Nadie se ha atrevido a preguntarle cómo lo comprueba.', 0, 1, NULL, 'zanahoria.png'),
+  (4, 'Espíritu lechuga', 'Hortaliza vegetal espíritu', 'Siempre fresca y siempre tranquila. Es la única del huerto que no se inmuta cuando llega el aliño.', 0, 1, NULL, 'lechuga.png'),
+  (5, 'Espíritu guisante', 'Legumbre vegetal espíritu', 'Creció en una vaina con muchos hermanos y nunca tuvo un cuarto propio. Ahora rueda donde quiere y no da explicaciones.', 0, 1, NULL, 'guisante.png'),
+  (6, 'Espíritu tomate', 'Fruta mostacho espíritu', 'Le salió el bigote una mañana y desde entonces exige que lo llamen «don Tomate».', 0, 1, NULL, 'tomate.png'),
+  (7, 'Espíritu mandarina', 'Cítrico vegetal espíritu', 'Se deja pelar sin protestar, pero guarda los gajos más dulces para quien sabe pedirlos con educación.', 0, 1, NULL, 'mandarina.png'),
+  (8, 'Espíritu calabaza', 'Cucurbitácea vegetal espíritu', 'Sonríe de oreja a oreja desde que alguien le talló la cara. Cada Halloween se ofrece voluntario, por si acaso.', 0, 1, NULL, 'calabaza.png'),
+  (9, 'Fantasma', 'Aparición clásica fantasma', 'Una sábana, dos agujeros y mucha dignidad. Es el fantasma de toda la vida y no necesita más efectos especiales.', 0, 2, NULL, 'fantasma.png'),
+  (10, 'Amarillín', 'Experimento amarillo espíritu', 'Llegó al santuario como prueba de laboratorio y se quedó porque le encantó el ambiente. Solo tiene un ojo, pero lo mira todo con entusiasmo.', 0, 5, NULL, 'minion.png'),
+  (11, 'Espíritu aguacate', 'Fruta cremosa vegetal espíritu', 'Tarda días en madurar y minutos en pasarse. Nadie ha conseguido encontrarlo en su punto exacto.', 1, 1, NULL, 'aguacate.png'),
+  (12, 'Espíritu uva', 'Fruta de racimo vegetal espíritu', 'Va siempre en racimo y se enfada si alguien intenta separarla de sus compañeras.', 1, 1, NULL, 'uva.png'),
+  (13, 'Espíritu berenjena', 'Hortaliza morada vegetal espíritu', 'Tiene la piel más brillante del huerto y la cuida con esmero. Solo se deja ver cuando la luz es buena.', 1, 1, NULL, 'berenjena.png'),
+  (14, 'Espíritu boniato', 'Tubérculo dulce vegetal espíritu', 'Por fuera parece tímido y por dentro es todo dulzura. Se ríe de cualquier cosa, sobre todo de sus propios chistes.', 1, 1, NULL, 'boniato.png'),
+  (15, 'Espíritu maíz', 'Cereal vegetal espíritu', 'Luce una melena rubia que peina cada mañana. Cuando está contento, sus granos suenan como una risa.', 1, 1, NULL, 'maiz.png'),
+  (16, 'Espíritu alga', 'Planta marina vegetal espíritu', 'Llegó arrastrada por la marea y se quedó al ver lo tranquilo que era el santuario. Todavía huele un poco a mar.', 1, 1, NULL, 'alga.png'),
+  (17, 'Espíritu tóxico', 'Experimento verde espíritu', 'Nació de un experimento que salió regular. Babea un poco, huele raro y aun así es la simpatía en persona.', 1, 5, NULL, 'toxico.png'),
+  (18, 'Poltergeist', 'Travieso ruidoso fantasma', 'Cambia las tazas de sitio cuando nadie mira y luego finge sorpresa. Lleva gorra naranja y jamás confiesa nada.', 1, 2, NULL, 'poltergeist.png'),
+  (19, 'Espíritu granada', 'Fruta de pepitas vegetal espíritu', 'Tiene un carácter explosivo y muchos secretos guardados en sus pepitas. Mejor no abrirla de mal humor.', 2, 1, NULL, 'granada.png'),
+  (20, 'Rabo de gato', 'Criatura felina espíritu', 'Es un fantasma que se cree gato, o un gato que se cree fantasma. Ninguno de los dos tiene razón y los dos son felices.', 2, 5, NULL, 'raboDeGato.png'),
+  (21, 'Banshee', 'Lamento nocturno fantasma', 'Se la oye antes de verla. Dicen que su lamento anuncia que algo está a punto de cambiar, casi siempre tu tranquilidad.', 2, 2, NULL, 'banshee.png'),
+  (22, 'Espectro', 'Sombra luminosa fantasma', 'Una sombra con aura blanca que sonríe muy poco. Cuando lo hace, parece que se enciende una lucecita en la oscuridad.', 2, 2, NULL, 'espectro.png'),
+  (23, 'Ángel', 'Mensajero celestial espíritu', 'Un ángel de los de siempre: túnica sencilla, aureola puesta y alas esponjosas. Nunca ha perdido el equilibrio, aunque tampoco ha volado muy alto.', 2, 3, NULL, 'angel.png'),
+  (24, 'Custodio Celestial', 'Profesional celestial espíritu', 'No la llames conserje del paraíso, es una custodio celestial, y está muy orgullosa de ello.', 2, 3, NULL, 'custodioCelestial.png'),
+  (25, 'Espíritu botánico', 'Profesional mostacho espíritu', '¿Cultivar plantas en el mundo espiritual? Algunos piensan que está loco, otros aprecian su esfuerzo.', 2, 3, NULL, 'botanicoDelCielo.png'),
+  (26, 'Tu mejor amigo', 'Mascota celestial espíritu', 'Llegó al cielo antes que tú y se ha pasado todo el tiempo esperándote en la puerta. Mueve la cola al verte y no pregunta nada.', 2, 3, NULL, 'tuMejorAmigo.png'),
+  (27, 'Inkblot', 'Mancha de tinta fantasma', 'Nació de un tintero derramado en una noche de tormenta. Se deshace un poco cada vez que se ríe, y aun así no deja de reír.', 3, 2, NULL, 'inkblot.png'),
+  (28, 'Yokai', 'Leyenda japonesa fantasma', 'Salió de un cuento japonés que se cuenta con las luces apagadas. Su sonrisa a medias es lo último que recuerdan quienes se lo cruzan.', 3, 2, NULL, 'yokai.png'),
+  (29, 'Forma pura', 'Oscuridad sin rostro fantasma', 'Sin rostro, sin nombre y sin explicaciones. Solo dos puntos de luz que te miran desde el fondo de la habitación.', 3, 2, NULL, 'formaPura.png'),
+  (30, 'Director de coro', 'Profesional celestial espíritu', 'Dirige un coro invisible con su batuta y jamás ha tenido que levantar la voz. Los ensayos se oyen desde las nubes.', 3, 3, NULL, 'directorDeCoro.png'),
+  (31, 'Cuentaespíritus', 'Profesional celestial espíritu', 'Lleva la contabilidad del santuario con sus gafas redondas y su maletín verde. Cada invocación pasa por sus manos y no se le escapa ni una.', 3, 3, NULL, 'cuentaEspiritus.png'),
+  (32, 'Portavoz de Dios', 'Mensajero celestial espíritu', 'Anuncia las noticias del cielo con la trompeta bien alta. Ensaya los comunicados en voz baja, por si acaso.', 3, 3, NULL, 'portavozDeDios.png'),
+  (33, 'Juanan', 'Docente humano espíritu', 'Cuando entra en clase, el murmullo baja solo. Explica con calma, corrige con paciencia y siempre trae una pregunta preparada.', 3, 4, NULL, 'juanan.png'),
+  (34, 'Laura', 'Docente humano espíritu', 'Escucha, ordena las ideas de todos y encuentra la palabra justa en el momento justo. Su melena llega siempre un poco antes que ella.', 3, 4, NULL, 'laura.png'),
+  (35, 'Intruso', 'Máscara enigmática fantasma', 'Aparece donde no lo esperas, con una mueca de sorpresa interminable. Nunca se sabe cuánto lleva ahí mirando.', 4, 2, NULL, 'intruso.png'),
+  (36, 'Estrella celestial', 'Artista celestial espíritu', 'Toca el teclado con los auriculares puestos y el cielo entero sigue el ritmo. Le guiña un ojo a quien aplaude con ganas.', 4, 3, NULL, 'estrellaCelestial.png'),
+  (37, 'Soldado celestial', 'Guardián celestial espíritu', 'Armadura de oro y lanza de estrella. Protege las puertas del santuario con cara de pocos amigos y un corazón blandito.', 4, 3, NULL, 'soldadoCelestial.png'),
+  (38, 'José Cristo', 'Guía celestial espíritu', 'Su aura dorada se nota desde lejos y su calma, todavía más. Quien se cruza con él se va con la sensación de haber entendido algo importante.', 4, 3, NULL, 'josecristo.png'),
+  (39, 'Sergio', 'Docente humano espíritu', 'Camiseta verde, sonrisa tranquila y paciencia a prueba de dudas. Se dice que existe una versión dorada de él, pero no confirma nada.', 4, 4, NULL, 'sergio.png'),
+  (40, 'Miguel Ángel', 'Docente humano espíritu', 'Gafas redondas, jersey azul y respuestas para casi todo. Si no tiene la respuesta, la busca contigo hasta encontrarla.', 4, 4, NULL, 'miguelangel.png'),
+  (41, 'Golden Sergio', 'Docente dorado espíritu', 'Sergio, pero en versión de oro macizo. Brilla tanto en clase que hay que explicar con gafas de sol.', 5, 4, 39, 'goldenSergio.png'),
+  (42, 'La Imitadora', 'Mimo vegetal espíritu', 'Copia a la patata hasta el último gesto. Nadie sabe si es una patata disfrazada de mimo o un mimo disfrazado de patata, y ella nunca lo dirá.', 5, 1, 2, 'imitadora.png'),
+  (43, 'Maíz morado', 'Cereal ancestral vegetal espíritu', 'Variante del maíz que crecía en las alturas desde antes de que nadie lo contara. Su melena rosa cambia de tono con el viento.', 5, 1, 15, 'maizMorado.png'),
+  (44, 'Fantasma de bronce', 'Aparición metálica fantasma', 'Es el fantasma clásico después de una noche entera bajo un baño de bronce. Ya no se desliza en silencio: resuena cuando se le golpea con cariño.', 5, 2, 9, 'fantasmaBronce.png'),
+  (45, 'Aguacate pelado', 'Fruta cremosa vegetal espíritu', 'Se quitó la piel de un tirón y ahora no para de bostezar con el hueso en la boca. Dicen que es lo más cremoso que existe en el mundo espiritual.', 5, 1, 11, 'aguacatePelado.png');

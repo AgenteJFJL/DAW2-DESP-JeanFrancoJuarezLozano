@@ -1,0 +1,67 @@
+# Práctica 07 · Santuario de Espíritus · jfjl04
+# 3 servicios: mariadb (datos) <- flask+gunicorn (app) <- nginx (proxy interno, puerto 8006)
+name: jfjl04-practica07
+
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: jfjl04_mariadb
+    restart: unless-stopped
+    networks:
+      - practica07_net
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?falta DB_ROOT_PASSWORD en .env}
+      MARIADB_DATABASE: practica07jfjl04
+      MARIADB_USER: flaskuser
+      MARIADB_PASSWORD: ${DB_PASSWORD:?falta DB_PASSWORD en .env}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/datos.sql:/docker-entrypoint-initdb.d/02-datos.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  flask:
+    build: ./app
+    container_name: jfjl04_flask
+    restart: unless-stopped
+    networks:
+      - practica07_net
+    environment:
+      DB_HOST: mariadb
+      DB_NAME: practica07jfjl04
+      DB_USER: flaskuser
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY:?falta SECRET_KEY en .env}
+      ADMIN_USER: ${ADMIN_USER:?falta ADMIN_USER en .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?falta ADMIN_PASSWORD en .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-1}
+    volumes:
+      - media_data:/data/media
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:stable
+    container_name: jfjl04_nginx
+    restart: unless-stopped
+    networks:
+      - practica07_net
+    ports:
+      - "8006:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - flask
+
+networks:
+  practica07_net:
+
+volumes:
+  mariadb_data:
+  media_data:
