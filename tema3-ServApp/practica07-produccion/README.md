@@ -60,27 +60,27 @@ Tablas: `rarezas`, `familias`, `espiritus`, `usuarios`, `colecciones` (PK compue
 ## 7. Evidencias
 
 ### Tarea 1 · Conexión SSH
-COMPLETAR (una frase: conexión con `ssh jfjl04@62.171.130.23`, `whoami` e `id` con el grupo `daw`).
+conexión con `ssh jfjl04@62.171.130.23`, `whoami` e `id` con el grupo `daw`.
 ![Conexión SSH](capturas/01-ssh-conexion.png)
 
 ### Tarea 2 · Directorio de trabajo
-COMPLETAR (una frase: `cd /opt/alumnos/jfjl04` y `pwd`).
+`cd /opt/alumnos/jfjl04` y `pwd`.
 ![Directorio de trabajo](capturas/02-directorio-trabajo.png)
 
 ### Tarea 3 · Transferencia del proyecto
-COMPLETAR (una frase: `scp -r` del proyecto al VPS).
+ `scp -r` del proyecto al VPS.
 ![Transferencia](capturas/03-transferencia-proyecto.png)
 
 ### Tarea 4 · docker-compose.yml
-COMPLETAR (una frase: puerto `8006:80`, volúmenes, healthcheck, nombres con prefijo `jfjl04_`).
+ puerto `8006:80`, volúmenes, healthcheck, nombres con prefijo `jfjl04_`.
 ![docker-compose.yml](capturas/04-docker-compose-yml.png)
 
 ### Tarea 5 · Publicación tras la ventana de cron
-COMPLETAR (hora de la ventana de despliegue en la que apareció la aplicación).
+hora de la ventana de despliegue en la que apareció la aplicación.
 ![Aplicación tras el cron](capturas/05-aplicacion-funcionando-https.png)
 
 ### Tarea 7 · Verificación final y cambio guardado en la BD
-COMPLETAR (qué cambio hice —por ejemplo editar la descripción de un espíritu como administrador— y cómo se ve tras recargar).
+
 ![Cambio visible](capturas/06-aplicacion-funcionando-https.png)
 
 ### Tarea 8 · Aplicación mejorada (MVC)
@@ -103,7 +103,23 @@ No. `down` elimina los contenedores y la red, pero los datos están en volúmene
 | Flask arrancaba antes que MariaDB | `healthcheck` + `depends_on: service_healthy` y reintentos al arrancar |
 | Nginx fallaba si Flask no existía aún | `resolver 127.0.0.11` + `proxy_pass` con variable |
 | Subida de imágenes sin control | Validación con Pillow, reescritura a PNG 512×512 y nombre generado |
-| COMPLETAR (problemas reales que encuentres) | COMPLETAR |
+| Problemas con el respositorio en un almacenamiento externo | Me vi obligado a hacer la practica en un directorio local de MAX en el instituto |
 
 ## 10. Conclusiones
-COMPLETAR (qué has aprendido: contenedores, volúmenes, proxy inverso, automatización con cron, seguridad).
+Esta práctica me ha servido para pasar de ejecutar una aplicación en mi ordenador a ponerla en un servidor real, con dominio propio y HTTPS. Lo más importante que me llevo:
+
+Un despliegue es un proceso, no solo código. Aunque la aplicación funcionase en local, en el VPS hubo que preparar muchas cosas: conectarme por SSH, trabajar en mi carpeta, transferir el proyecto, asignar un puerto exclusivo y esperar a la ventana de despliegue del cron. Entendí por qué en producción no se cambia todo en el momento: las ventanas programadas reducen el riesgo de dejar el servicio roto.
+
+Los contenedores aíslan y hacen el despliegue repetible. Con Docker Compose, la aplicación, la base de datos y el proxy interno se levantan igual en mi equipo y en el servidor. Aprendí a usar healthcheck y depends_on para que Flask no arranque antes de que MariaDB esté lista, y a poner prefijos en los nombres (jfjl04_) para no chocar con los demás alumnos.
+
+Los datos deben vivir fuera del contenedor. Los volúmenes con nombre (mariadb_data y media_data) permiten borrar y recrear contenedores sin perder usuarios, colecciones ni imágenes subidas. Solo docker compose down -v los elimina.
+
+El proxy inverso centraliza el acceso y la seguridad. Nginx Proxy Manager recibe el tráfico por HTTPS, usa el certificado de Let's Encrypt y lo reenvía a mi puerto 8006. Así mi aplicación nunca queda expuesta directamente a Internet y no hay conflictos en el puerto 80.
+
+La seguridad se piensa desde el principio. Trabajar con mi usuario y no con root, ejecutar Flask en el contenedor con un usuario sin privilegios, guardar las contraseñas en un .env fuera de Git, usar hashes, protección CSRF, cabeceras CSP y validar las imágenes subidas son medidas que limitan el daño si algo falla. También aprendí que los permisos de los ficheros importan: al copiar con scp se aplicaron permisos más restrictivos, y tuve que ajustarlos para que el contenedor de MariaDB pudiera leer los scripts de inicio.
+
+Separar la aplicación en MVC la hace más fácil de mantener. El modelo (models.py) gestiona la base de datos y las reglas del juego, las vistas (templates/) muestran la información y el controlador (app.py) conecta ambos. Gracias a esto pude añadir el panel de administración sin reescribir todo, y las probabilidades de invocación se recalculan solas cuando cambia el catálogo.
+
+Qué mejoraría. Añadiría copias de seguridad automáticas de la base de datos, un registro de actividad del administrador y pruebas automáticas antes de cada despliegue. También integraría un inicio de sesión real con EducaMadrid, que aquí no fue posible validar.
+
+En conjunto, lo que más me ha gustado es construir algo propio (el Santuario de Espíritus) y verlo funcionando en un dominio real, con todo el recorrido de producción: desde el código hasta el navegador.
